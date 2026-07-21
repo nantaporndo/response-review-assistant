@@ -1,0 +1,11 @@
+data:
+  raw_path: data/raw/Amazon_Reviews.csv
+  min_text_length: 20
+embedding:
+  model_name: sentence-transformers/all-MiniLM-L6v2
+chunking:
+  chunk_size: 500
+  chunk_overlap: 50
+retrieval:
+  top_k: 5
+  collection_name: amazon_reviews
