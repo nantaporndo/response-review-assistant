@@ -11,3 +11,6 @@ wheels/
 
 # data
 data/raw
+
+# vector store
+chroma_db/
