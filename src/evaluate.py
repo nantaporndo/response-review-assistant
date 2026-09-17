@@ -20,7 +20,7 @@ from src.vectorstore import get_collection
 def load_test_set(path:str | Path | None = None, config:dict | None = None) -> list[dict]:
     cfg = config or load_config()
     p = Path(path) if path else PROJECT_ROOT / cfg["evaluation"]["test_set_path"]
-    with open(p,encoding="uft-8") as f:
+    with open(p,encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 def evaluate_query(retrieved_ids: list[str], relevant_ids: list[str], k: int) -> dict:

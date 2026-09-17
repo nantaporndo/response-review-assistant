@@ -1,0 +1,57 @@
+# Retrieval evaluation test set
+# ---------------------------------------------------------------
+# format: query        = สิ่งที่ user (ทีม support) น่าจะพิมพ์ค้น
+#         relevant_ids = review_id ที่ "ควร" ติด top results
+#
+# เกณฑ์ relevance (จดไว้เพื่อให้ตัดสินสม่ำเสมอทุก query และให้คนอื่นเติมต่อได้):
+#   - relevant = ผู้เขียนอยู่ในสถานการณ์เดียวกับที่ query บรรยาย
+#     ไม่ใช่แค่มี keyword ตรงกัน
+#     เช่น query "refund never arrived" → "ของไม่มา เลยกำลังจะไปขอ refund"
+#     ไม่นับ (คนละสถานการณ์) แม้มีทั้งคำว่า arrived และ refund
+#   - ก้ำกึ่ง/ตัดสินไม่ได้จากข้อความ → ตัดออก (ground truth ที่ไม่มั่นใจทำให้ตัวเลขขุ่น)
+#   - อ่านข้อความเต็มก่อนตัดสินเสมอ: search(...)[i].document
+#
+# วิธีหา id เพิ่ม:
+#   uv run python  →  from src.retrieve import search, pretty_print
+#                     pretty_print(search("คำค้น", k=10))
+#   อ่านทีละอัน ถามว่า "ถ้าเราเป็นคนตอบลูกค้า อันนี้ช่วยไหม" → ใช่ = จด id
+#
+# TODO(Nantaporn): เติมให้ครบ ~10 queries — ให้ครอบคลุมหลายธีม
+#   (refund / delivery / account / customer service / เชิงบวก 1-2 อัน)
+#   และอย่างน้อย 1 query ที่ใช้คำคนละคำกับใน review (ทดสอบ semantic จริง)
+# ---------------------------------------------------------------
+
+# --- verified: อ่านข้อความจริงแล้ว ---
+
+- query: "refund never arrived"
+  relevant_ids: ["9345", "7794", "5484", "2565", "9107", "8065", "3546"]
+  # ตัดออก: 11930 (ของไม่มา ≠ refund ไม่มา), 6629 (บ่นระบบรวมๆ), 5660 (ก้ำกึ่ง)
+
+- query: "account locked and forced to verify identity repeatedly"
+  relevant_ids: ["184", "535"]
+
+- query: "refund went to gift card instead of original payment"
+  relevant_ids: ["16"]
+
+- query: "automatic refund amount wrong and cannot be processed"
+  relevant_ids: ["88"]
+
+# --- TODO: เติมต่อจากตรงนี้ (ลบ comment ออกแล้วใส่ id จริง) ---
+
+# - query: "driver left package in unsafe place"
+#   relevant_ids: []
+
+# - query: "charged twice for one order"
+#   relevant_ids: []
+
+# - query: "customer service unhelpful and hard to contact"
+#   relevant_ids: []
+
+# - query: "ordered something but it never showed up"     # ใช้คำคนละคำกับ review
+#   relevant_ids: []
+
+# - query: "fast delivery and great service"               # เชิงบวก — ทดสอบ filter ด้วย
+#   relevant_ids: []
+
+# - query: "item arrived damaged or wrong item sent"
+#   relevant_ids: []
