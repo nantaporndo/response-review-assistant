@@ -23,7 +23,7 @@ def get_collection(config: dict | None = None, reset : bool=False):
 def build_metadatas(df: pd.DataFrame) -> list[dict]:
     return[
         {"rating": int(r),"country":str(c),"review_date":str(d.date())}
-        for r,c,d in zip(df["rating",df["country"],df["review_date"]])
+        for r,c,d in zip(df["rating"],df["country"],df["review_date"])
     ]
 
 def add_documents(collection,df:pd.DataFrame,embeddings) -> None:
